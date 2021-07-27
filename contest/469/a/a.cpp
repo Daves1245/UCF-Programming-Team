@@ -95,6 +95,9 @@ int main() {
         }
     }
     sort(v.begin(), v.end());
+    if (v.size() > 0 && v[0] != 1) {
+        goto no;
+    }
     int i;
     for (i = 0; i < max(0, (int)(v.size() - 1)); i++) {
         if (v[i] + 1 < v[i + 1]) {

@@ -1,8 +1,9 @@
 /*
  * Author: medbar
- * Date: 2021-07-24
+ * Date: 2021-07-26
  */
 
+#include <cstring>
 #include <ctime>
 #include <iostream>
 #include <vector>
@@ -81,17 +82,55 @@ void p(vi v) {
     cout << endl;
 }
 
+int scores[50010][5] = {0};
+int beat[50010];
+
+bool issup(int i, int n) {
+    for (int j = 0; j < 5; j++) {
+        int c = 0;
+        for (int k = 0; k < n; k++) {
+            if (scores[k][j] > scores[i][k]) {
+                beat[j]++;
+            }
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        if (beat[i] < 3) {
+            memset(beat, 0, n * sizeof(int));
+            return false;
+        }
+    }
+    memset(beat, 0, n * sizeof(int));
+    return true;
+}
+
 int main() {
-    ll y, k, n;
-    cin >> y >> k >> n;
-    if (k - (y % k) + y > n) {
-        cout << -1 << endl;
-        return 0;
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < 5; j++) {
+                cin >> scores[i][j];
+            }
+            sort(&scores[i][0], &scores[i][5]);
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < 5; j++) {
+                cout << scores[i][j] << " ";
+            }
+            cout << endl;
+        }
+        int f = -2;
+        for (int i = 0; i < n; i++) {
+            if (issup(i, n)) {
+                f = i;
+                break;
+            }
+        }
+        cout << f + 1 << endl;
     }
-    for (int i = y + k - ((y + k) % k) - y; i + y <= n; i += k) {
-        cout << i << " ";
-    }
-    cout << endl;
     return 0;
 }
 

@@ -1,6 +1,6 @@
 /*
  * Author: medbar
- * Date: 2021-07-24
+ * Date: 2021-07-25
  */
 
 #include <ctime>
@@ -82,16 +82,8 @@ void p(vi v) {
 }
 
 int main() {
-    ll y, k, n;
-    cin >> y >> k >> n;
-    if (k - (y % k) + y > n) {
-        cout << -1 << endl;
-        return 0;
-    }
-    for (int i = y + k - ((y + k) % k) - y; i + y <= n; i += k) {
-        cout << i << " ";
-    }
-    cout << endl;
+    int a, b;
+    cin >> a >> b;
     return 0;
 }
 
