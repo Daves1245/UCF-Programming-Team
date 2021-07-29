@@ -1,6 +1,6 @@
 /*
- * Author: $%U%$
- * Date: $%Y%$-$%M%$-$%D%$
+ * Author: medbar
+ * Date: 2021-07-28
  */
 
 #include <set>
@@ -42,7 +42,6 @@ typedef long long ll;
 typedef pair<int, int> ii;
 typedef vector<int> vi;
 typedef vector<ii> vii;
-typedef vector<ll> vll;
 typedef unordered_map<long long, int, custom_hash> safe_map;
 
 int fast_gcd(int a, int b) {
@@ -84,8 +83,52 @@ void p(vi v) {
     cout << endl;
 }
 
-int main() {
+void swap(int *a, int *b) {
+    int tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
 
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        vi v(n);
+        for (int i = 0; i < n; i++) {
+            cin >> v[i];
+        }
+        int sum = v[0];
+        for (int i = 1; i < n - 1; i++) {
+            sum += v[i];
+            if (sum == 0) {
+                sum -= v[i];
+                bool f = true;
+                for (int j = 0; j < n; j++) {
+                    if (i == j) continue;
+                    if (sum + v[j] != 0) {
+                        sum += v[j];
+                        swap(&v[j], &v[i]);
+                        f = false;
+                        break;
+                    }
+                }
+                if (f) {
+                    goto no;
+                }
+            }
+        }
+        if (sum == 0) {
+            goto no;
+        }
+yes:
+        cout << "YES" << endl;
+        p(v);
+        continue;
+no:
+        cout << "NO" << endl;
+    }
     return 0;
 }
 

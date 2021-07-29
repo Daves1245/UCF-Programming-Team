@@ -1,6 +1,6 @@
 /*
- * Author: $%U%$
- * Date: $%Y%$-$%M%$-$%D%$
+ * Author: medbar
+ * Date: 2021-07-28
  */
 
 #include <set>
@@ -42,7 +42,6 @@ typedef long long ll;
 typedef pair<int, int> ii;
 typedef vector<int> vi;
 typedef vector<ii> vii;
-typedef vector<ll> vll;
 typedef unordered_map<long long, int, custom_hash> safe_map;
 
 int fast_gcd(int a, int b) {
@@ -84,8 +83,34 @@ void p(vi v) {
     cout << endl;
 }
 
-int main() {
+int count(string s, string r) {
+    int ret = 0;
+    string::size_type start = 0;
+    while ((start = s.find(r, start)) != string::npos) {
+        ret++;
+        start += r.length();
+    }
+    return ret;
+}
 
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, k;
+        cin >> n >> k;
+        string s;
+        getline(cin, s);
+        getline(cin, s);
+        int a = count(s, "LW");
+        int b = count(s, "WL");
+        int c = count(s, "LW") + count(s, "WL") - count(s, "LWL");
+        cout << "test: " << a << " " << b << " " << c << endl;
+        int m = min(c, k);
+        m *= 2;
+        int extra = min(k - c, count(s, "W"));
+        cout << count(s, "W") + m + extra << endl;
+    }
     return 0;
 }
 
