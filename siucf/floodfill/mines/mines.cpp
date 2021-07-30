@@ -3,6 +3,7 @@
  * Date: 2021-07-29
  */
 
+#include <cstring>
 #include <set>
 #include <ctime>
 #include <iostream>
@@ -84,10 +85,50 @@ void p(vi v) {
     cout << endl;
 }
 
+bool space[30][30][30];
+bool visited[30][30][30];
+
+ll floodfill(int x, int y, int z, int n) {
+    if (x < 0 || y < 0 || z < 0 || x >= n || y >= n 
+            || z >= n) {
+        return 0;
+    }
+    if (visited[x][y][z]) {
+        return 0;
+    }
+    if (!space[x][y][z]) {
+        return 0;
+    }
+    visited[x][y][z] = true;
+    return 1 + floodfill(x + 1, y, z, n)
+        + floodfill(x - 1, y, z, n)
+        + floodfill(x, y + 1, z, n)
+        + floodfill(x, y - 1, z, n)
+        + floodfill(x, y, z + 1, n)
+        + floodfill(x, y, z - 1, n);
+}
+
 int main() {
     int n;
     cin >> n;
 
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            for (int k = 0; k < n; k++) {
+                int tmp;
+                cin >> tmp;
+                space[i][j][k] = tmp;
+            }
+        }
+    }
+    int t;
+    cin >> t;
+    for (int i = 1; i <= t; i++) {
+        int x, y, z;
+        cin >> x >> y >> z;
+        printf("Simulation #%d, volume cleared is %lld cubic feet.\n\n", i, floodfill(x, y, z, n));
+        memset(visited, false, sizeof visited);
+    }
     return 0;
 }
 
