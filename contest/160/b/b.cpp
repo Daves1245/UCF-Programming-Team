@@ -27,6 +27,9 @@ int main() {
     for (int i = 0; i < n; i++) {
         a[i] = s[i];
     }
+    if (sum == 0) {
+        goto no;
+    }
     for (int i = 0; i < n; i++) {
         b[i] = s[i + n];
     }
@@ -36,11 +39,7 @@ int main() {
 
     int i;
     for (i = 0; i < n; i++) {
-        if (a[i] == b[i]) continue;
-    }
-    if (i == n) {
-        cout << "a" << endl;
-        goto no;
+        if (a[i] == b[i]) goto no;
     }
     for (i = 0; i < n; i++) {
         if (a[i] > b[i]) break;

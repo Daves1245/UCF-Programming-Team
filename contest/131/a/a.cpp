@@ -1,8 +1,9 @@
 /*
  * Author: medbar
- * Date: 2021-07-28
+ * Date: 2021-08-17
  */
 
+#include <cstring>
 #include <set>
 #include <ctime>
 #include <iostream>
@@ -42,6 +43,7 @@ typedef long long ll;
 typedef pair<int, int> ii;
 typedef vector<int> vi;
 typedef vector<ii> vii;
+typedef vector<ll> vll;
 typedef unordered_map<long long, int, custom_hash> safe_map;
 
 int fast_gcd(int a, int b) {
@@ -83,45 +85,23 @@ void p(vi v) {
     cout << endl;
 }
 
-void p_backwards(vi v) {
-    for (int i = v.size() - 1; i > -1; i--) {
-        cout << v[i] << " ";
-    }
-    cout << endl;
-}
-
-void swap(int *a, int *b) {
-    int tmp = *a;
-    *a = *b;
-    *b = tmp;
-}
-
 int main() {
-    int t;
-    cin >> t;
-    while (t--) {
-        int n;
-        cin >> n;
-        vi v(n);
-        int sum = 0;
-        for (int i = 0; i < n; i++) {
-            cin >> v[i];
-            sum += v[i];
+    char s[110];
+    fgets(s, sizeof s, stdin);
+    bool caps = true;
+    for (int i = 1; i < strlen(s); i++) {
+        if (islower(s[i])) {
+            caps = false;
+            break;
         }
-        if (sum == 0) {
-            goto no;
+    }
+
+    if (caps) {
+        for (int i = 0; i < strlen(s); i++) {
+            printf("%c", islower(s[i]) ? toupper(s[i]) : tolower(s[i]));
         }
-        sort(v.begin(), v.end());
-yes:
-        cout << "YES" << endl;
-        if (sum < 0) {
-            p(v);
-        } else {
-            p_backwards(v);
-        }
-        continue;
-no:
-        cout << "NO" << endl;
+    } else {
+        printf("%s", s);
     }
     return 0;
 }

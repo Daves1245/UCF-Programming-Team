@@ -1,6 +1,6 @@
 /*
  * Author: medbar
- * Date: 2021-07-28
+ * Date: 2021-08-18
  */
 
 #include <set>
@@ -42,6 +42,7 @@ typedef long long ll;
 typedef pair<int, int> ii;
 typedef vector<int> vi;
 typedef vector<ii> vii;
+typedef vector<ll> vll;
 typedef unordered_map<long long, int, custom_hash> safe_map;
 
 int fast_gcd(int a, int b) {
@@ -83,45 +84,25 @@ void p(vi v) {
     cout << endl;
 }
 
-void p_backwards(vi v) {
-    for (int i = v.size() - 1; i > -1; i--) {
-        cout << v[i] << " ";
-    }
-    cout << endl;
-}
-
-void swap(int *a, int *b) {
-    int tmp = *a;
-    *a = *b;
-    *b = tmp;
-}
-
 int main() {
-    int t;
-    cin >> t;
-    while (t--) {
-        int n;
-        cin >> n;
-        vi v(n);
-        int sum = 0;
-        for (int i = 0; i < n; i++) {
-            cin >> v[i];
-            sum += v[i];
-        }
-        if (sum == 0) {
-            goto no;
-        }
-        sort(v.begin(), v.end());
-yes:
-        cout << "YES" << endl;
-        if (sum < 0) {
-            p(v);
+    int n;
+    int le, lo, ce = 0, co = 0;
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        int tmp;
+        cin >> tmp;
+        if (tmp % 2) {
+            lo = i + 1;
+            co++;
         } else {
-            p_backwards(v);
+            le = i + 1;
+            ce++;
         }
-        continue;
-no:
-        cout << "NO" << endl;
+    }
+    if (co > ce) {
+        cout << le << endl;
+    } else {
+        cout << lo << endl;
     }
     return 0;
 }

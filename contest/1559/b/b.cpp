@@ -1,6 +1,6 @@
 /*
  * Author: medbar
- * Date: 2021-07-28
+ * Date: 2021-08-19
  */
 
 #include <set>
@@ -42,6 +42,7 @@ typedef long long ll;
 typedef pair<int, int> ii;
 typedef vector<int> vi;
 typedef vector<ii> vii;
+typedef vector<ll> vll;
 typedef unordered_map<long long, int, custom_hash> safe_map;
 
 int fast_gcd(int a, int b) {
@@ -83,45 +84,68 @@ void p(vi v) {
     cout << endl;
 }
 
-void p_backwards(vi v) {
-    for (int i = v.size() - 1; i > -1; i--) {
-        cout << v[i] << " ";
+int imperfectness(vector<char> v) {
+    int ret = 0;
+    for (int i = 0; i < v.size() - 1; i++) {
+        if (v[i] == v[i + 1]) {
+            ret++;
+        }
     }
-    cout << endl;
+    return ret;
 }
 
-void swap(int *a, int *b) {
-    int tmp = *a;
-    *a = *b;
-    *b = tmp;
+vector<char> fillRB(vector<char> templt) {
+    vector<char> ret;
+    for (int i = 0; i < templt.size() - 1; i += 2) {
+        if (templt[i] == '?') {
+            ret[i] = 'R';
+        } else {
+            ret[i] = templt[i];
+        }
+        if (templt[i + 1] == '?') {
+            ret[i + 1] = 'B';
+        } else {
+            ret[i] = templt[i];
+        }
+    }
+    return ret;
+}
+
+
+vector<char> fillBR(vector<char> templt) {
+    vector<char> ret;
+    for (int i = 0; i < templt.size() - 1; i += 2) {
+        if (templt[i] == '?') {
+            ret[i] = 'B';
+        } else {
+            ret[i] = templt[i];
+        }
+        if (templt[i + 1] == '?') {
+            ret[i + 1] = 'R';
+        } else {
+            ret[i] = templt[i];
+        }
+    }
+    return ret;
 }
 
 int main() {
     int t;
-    cin >> t;
+    scanf("%d", &t);
     while (t--) {
         int n;
-        cin >> n;
-        vi v(n);
-        int sum = 0;
+        scanf("%d\n", &n);
+        vector<char> v(n);
         for (int i = 0; i < n; i++) {
-            cin >> v[i];
-            sum += v[i];
+            v[i] = getchar();
         }
-        if (sum == 0) {
-            goto no;
+        getchar();
+        int index = -1;
+        for (int i = 0; i < v.size(); i++) {
+            if (v[i] != '?') {
+                index = i;
+            }
         }
-        sort(v.begin(), v.end());
-yes:
-        cout << "YES" << endl;
-        if (sum < 0) {
-            p(v);
-        } else {
-            p_backwards(v);
-        }
-        continue;
-no:
-        cout << "NO" << endl;
     }
     return 0;
 }

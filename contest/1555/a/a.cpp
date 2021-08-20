@@ -1,8 +1,9 @@
 /*
  * Author: medbar
- * Date: 2021-07-28
+ * Date: 2021-07-30
  */
 
+#include <climits>
 #include <set>
 #include <ctime>
 #include <iostream>
@@ -42,6 +43,7 @@ typedef long long ll;
 typedef pair<int, int> ii;
 typedef vector<int> vi;
 typedef vector<ii> vii;
+typedef vector<ll> vll;
 typedef unordered_map<long long, int, custom_hash> safe_map;
 
 int fast_gcd(int a, int b) {
@@ -83,45 +85,39 @@ void p(vi v) {
     cout << endl;
 }
 
-void p_backwards(vi v) {
-    for (int i = v.size() - 1; i > -1; i--) {
-        cout << v[i] << " ";
-    }
-    cout << endl;
-}
+ll solve(int coinList[], int weights[], int n, int value) {
+    int coins[value+1];       //store minimum coins for value i
+    ll ret = 0;
 
-void swap(int *a, int *b) {
-    int tmp = *a;
-    *a = *b;
-    *b = tmp;
+    if(value == 0)
+        return 0;              //for value 0, it needs 0 coin
+
+    coins[0] = 0;
+
+    for (int i=1; i<=value; i++)
+        coins[i] = INT_MAX;            //initially all values are infinity except 0 value
+
+    for (int i=1; i<=value; i++) {      //for all values 1 to value, find minimum values
+        for (int j=0; j<n; j++)
+            if (coinList[j] <= i) {
+                int tempCoins = coins[i-coinList[j]];
+                if (tempCoins != INT_MAX && tempCoins + 1 < coins[i])
+                    coins[i] = tempCoins + 1;
+            }
+    }
+    return coins[value];
 }
 
 int main() {
     int t;
     cin >> t;
+
+    int slices[] = {6, 8, 10};
+    int weights[] = {15, 20, 25};
+
     while (t--) {
         int n;
         cin >> n;
-        vi v(n);
-        int sum = 0;
-        for (int i = 0; i < n; i++) {
-            cin >> v[i];
-            sum += v[i];
-        }
-        if (sum == 0) {
-            goto no;
-        }
-        sort(v.begin(), v.end());
-yes:
-        cout << "YES" << endl;
-        if (sum < 0) {
-            p(v);
-        } else {
-            p_backwards(v);
-        }
-        continue;
-no:
-        cout << "NO" << endl;
     }
     return 0;
 }
