@@ -98,52 +98,28 @@ double distance(vii rides, int a, int b) {
     return sqrt(pow(rides[a].first - rides[b].first, 2) + pow(rides[a].second - rides[b].second, 2));
 }
 
-bool next_perm(vi nums) {
-    int n = nums.size();
-
-    int i = n - 2;
-    while (i >= 0 && nums[i] >= nums[i + 1]) i--;
-
-    if (i == -1) return false;
-
-    int x = nums[i];
-    int j = n - 1;
-    while (j > i && nums[j] <= x) j--;
-
-    nums[i] = nums[j];
-    nums[j] = x;
-
-    sort(nums.begin() + i + 1, nums.end());
-    return true;
-}
-
-double try_path(vii rides, vii blocked) {
-    int r = rides.size();
-    vi perm(r);
+double try_path(vii rides, vii blocked, vector<bool> visited, int k) {
+    bool complete = true;
+    int r = rides.size(), b = blocked.size();
+    bool done = true;
+    for (int i = 0; i < visited.size(); i++) {
+        if (!visited[i]) {
+            done = false;
+            break;
+        }
+    }
+    if (done) {
+        return 0;
+    }
+    double min_path = INFINITY;
     for (int i = 0; i < r; i++) {
-        perm[i] = i;
-    }
-
-    double min_weight = INFINITY;
-    bool tmp;
-    while ((tmp = next_perm(perm))) {
-        cout << "perms: ";
-        for (int i = 0; i < perm.size(); i++) {
-            cout << perm[i] << " ";
+        if (!visited[i] && !path_blocked(rides, k, i)) {
+            visited[i] = true;
+            min_path = min(min_path, distance(rides, k, i) + 120.0 + try_path(rides, blocked, visited, i));
+            visited[i] = false;
         }
-        cout << endl;
-        cout << "condition: " << tmp << endl;
-        double weight = 0;
-        for (int i = 0; i < r - 1; i++) {
-            if (path_blocked(rides, i, i + 1)) {
-                weight = INFINITY;
-                break;
-            }
-            weight += distance(rides, i, i + 1);
-        }
-        min_weight = min(min_weight, weight);
     }
-    return min_weight;
+    return min_path;
 }
 
 int main() {
@@ -154,23 +130,20 @@ int main() {
         cin >> r >> b;
         vii rides(r);
         vii blocked(b);
-        int arr[r];
         for (int i = 0; i < r; i++) {
             cin >> rides[i].first >> rides[i].second;
-            arr[r] = i;
         }
 
         for (int i = 0; i < b; i++) {
             cin >> blocked[i].first >> blocked[i].second;
         }
 
-        vector<bool> visited(r, false);
-        double time = try_path(rides, blocked);
-        if (time == INFINITY) {
+        if (!possible(r, blocked)) {
             cout << "no" << endl;
-        } else {
-            cout << time << endl;
+            continue;
         }
+        vector<bool> visited(r, false);
+        cout << try_path(rides, blocked, visited, 1) << endl;
     }
     return 0;
 }
