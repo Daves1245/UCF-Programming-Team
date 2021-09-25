@@ -19,6 +19,7 @@
 #include <numeric>
 #include <unordered_set>
 #include <queue>
+#include <math.h>
 
 #define btoa(x) ((x) ? "YES" : "NO")
 
@@ -85,22 +86,21 @@ void p(vi v) {
     cout << endl;
 }
 
-bool path_blocked(vii blocked, int a, int b) {
+bool path_blocked(vii &blocked, int a, int b) {
     for (int i = 0; i < blocked.size(); i++) {
-        if (blocked[i].first == a && blocked[i].second == b) {
+        if (blocked[i].first == a && blocked[i].second == b
+                || blocked[i].first == b && blocked[i].second == a) {
             return true;
         }
     }
     return false;
 }
 
-double distance(vii rides, int a, int b) {
+int distance(vii &rides, int a, int b) {
     return sqrt(pow(rides[a].first - rides[b].first, 2) + pow(rides[a].second - rides[b].second, 2));
 }
 
-bool next_perm(vi nums) {
-    int n = nums.size();
-
+bool next_perm(int *nums, int n) {
     int i = n - 2;
     while (i >= 0 && nums[i] >= nums[i + 1]) i--;
 
@@ -113,63 +113,55 @@ bool next_perm(vi nums) {
     nums[i] = nums[j];
     nums[j] = x;
 
-    sort(nums.begin() + i + 1, nums.end());
+    sort(nums + i + 1, nums + n);
     return true;
 }
 
-double try_path(vii rides, vii blocked) {
+double try_path(vii &rides, vii &blocked) {
     int r = rides.size();
-    vi perm(r);
+    int perm[r];
     for (int i = 0; i < r; i++) {
         perm[i] = i;
     }
 
     double min_weight = INFINITY;
-    bool tmp;
-    while ((tmp = next_perm(perm))) {
-        cout << "perms: ";
-        for (int i = 0; i < perm.size(); i++) {
-            cout << perm[i] << " ";
-        }
-        cout << endl;
-        cout << "condition: " << tmp << endl;
+    while (next_perm(perm + 1, r - 1)) {
         double weight = 0;
         for (int i = 0; i < r - 1; i++) {
-            if (path_blocked(rides, i, i + 1)) {
-                weight = INFINITY;
+            if (path_blocked(rides, perm[i], perm[i + 1])) {
+                weight = INT_MAX;
                 break;
             }
-            weight += distance(rides, i, i + 1);
+            weight += distance(rides, perm[i], perm[i + 1]);
         }
+        weight += r * 120;
         min_weight = min(min_weight, weight);
     }
     return min_weight;
 }
 
 int main() {
-    int t;
-    cin >> t;
-    while (t--) {
+    int T;
+    cin >> T;
+    for (int t = 0; t < T; t++) {
         int r, b;
         cin >> r >> b;
         vii rides(r);
         vii blocked(b);
-        int arr[r];
         for (int i = 0; i < r; i++) {
             cin >> rides[i].first >> rides[i].second;
-            arr[r] = i;
         }
 
         for (int i = 0; i < b; i++) {
             cin >> blocked[i].first >> blocked[i].second;
         }
 
-        vector<bool> visited(r, false);
+        printf("Vacation #%d:\n", t + 1);
         double time = try_path(rides, blocked);
         if (time == INFINITY) {
-            cout << "no" << endl;
+            printf("Jimmy should plan this vacation a different day.\n");
         } else {
-            cout << time << endl;
+            printf("Jimmy can finish all of the rides in %.3lf seconds.\n", time);
         }
     }
     return 0;
