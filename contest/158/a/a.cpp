@@ -102,7 +102,7 @@ int main() {
         s++;
         i++;
     }
-    cout << k + s << endl;
+    cout << k + s - 1 << endl;
     return 0;
 }
 
