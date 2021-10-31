@@ -46,18 +46,24 @@ void p(vi v) {
     cout << endl;
 }
 
-int dp(vector<bool> visited) {
-
-}
+ll cnt[100010];
+unsigned long long int dp[100010];
 
 int main() {
     int n;
     cin >> n;
-    vi v(n + 2);
-    for (int i = 1; i <= n; i++) {
-        cin >> v[i];
+
+    for (int i = 0; i < n; i++) {
+        int tmp;
+        cin >> tmp;
+        cnt[tmp]++;
     }
-    int 
+
+    dp[1] = cnt[1];
+    for (int i = 2; i <= 100000; i++) {
+        dp[i] = max(dp[i - 1], dp[i - 2] + i * cnt[i]);
+    }
+    cout << dp[100000] << endl;
     return 0;
 }
 
