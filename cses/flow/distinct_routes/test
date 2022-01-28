@@ -1,0 +1,3 @@
+#!/bin/bash
+g++ distinct_routes.cpp -o run -O0 -g3
+valgrind ./run < in1.txt
