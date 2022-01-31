@@ -64,6 +64,10 @@ struct Dinic {
 
 
     void __dfs(int v, int t, int i) {
+        for (auto &i : path) {
+            cout << i << " ";
+        }
+        cout << endl << endl;
         path.push_back(v + 1);
         i++;
         if (v == t) {
@@ -74,7 +78,7 @@ struct Dinic {
 
         visited[v] = true;
         for (auto &e : adj[v]) {
-            if (!visited[e.to] && e.c >= 0) {
+            if (!visited[e.to] && e.flow() >= 0) {
                 __dfs(e.to, t, i);
             } 
         }
