@@ -1,0 +1,11 @@
+10
+rich: lower upper class
+mona: upper upper class
+dave: middle lower class
+charles: middle class
+tom: middle class
+william: lower middle class
+carl: lower class
+violet: middle class
+frank: lower class
+mary: upper class
