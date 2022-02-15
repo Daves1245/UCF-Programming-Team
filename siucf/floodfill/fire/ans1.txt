@@ -1,0 +1,9 @@
+Map #1:
+.V..
+FFF.
+FFFF
+FFFX
+Map #2:
+.FF
+..^
+...
