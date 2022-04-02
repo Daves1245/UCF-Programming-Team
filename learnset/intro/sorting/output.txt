@@ -1,0 +1,9 @@
+Class #1 ordering
+LINDT
+JONES
+
+Class #2 ordering
+WALLACE
+MADISON
+DAVIS
+

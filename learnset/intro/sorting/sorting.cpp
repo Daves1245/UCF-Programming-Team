@@ -25,7 +25,6 @@ int main() {
 
         cout << "Class #" << t << " ordering" << endl;
         for (auto i : v) cout << i << endl;
-        cout << endl;
     }
     return 0;
 }

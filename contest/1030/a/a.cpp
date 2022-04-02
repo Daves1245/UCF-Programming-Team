@@ -92,7 +92,7 @@ int main() {
             return 0;
         }
     }
-    cout << "eAsY" << endl;
+    cout << "EASY" << endl;
     return 0;
 }
 
