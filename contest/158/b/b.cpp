@@ -1,59 +1,30 @@
-/*
- * Author: medbar
- * Date: 2021-09-15
- */
-
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <unordered_map>
-#include <math.h>
-
-#define btoa(x) ((x) ? "YES" : "NO")
-
+#include <bits/stdc++.h>
 using namespace std;
-
+#define for(n) for(int i = 0; i < (n); i++) 
 int main() {
-    int n;
-    cin >> n;
-    int a[5] = {0};
-    for (int i = 0; i < n; i++) {
-        int u;
-        cin >> u;
-        a[u]++;
+    int n; cin >> n;
+    int v[5] = {0};
+    for(n) {
+        int t; cin >> t;
+        v[t]++;
     }
-    if (a[1] <= a[3]) {
-        a[2] = a[2] / 2 + (a[2] % 2);
-        cout << a[2] + a[3] + a[4] << endl;
-        return 0;
+    int ret = v[4];
+    int tmp;
+    ret += tmp = min(v[1], v[3]);
+    v[1] -= tmp, v[3] -= tmp;
+    ret += v[3];
+    ret += v[2] / 2;
+    v[2] %= 2;
+    
+    if (v[2]) {
+        ret++;
+        v[1] -= min(v[1], 2);
+    } 
+    if (v[1]) {
+        ret += v[1] / 4;
+        if (v[1] % 4) ret++;
     }
-    int ret = a[4];
-    int t = min(a[1], a[3]);
-    ret += t;
-    a[1] -= t;
-    a[3] -= t;
-    ret += a[3];
-    if (a[1] > 0) {
-        a[2] += a[1] / 2;
-        a[1] %= 2;
-    }
-    a[2] = (a[2] / 2) + (a[2] % 2);
-    cout << ret + a[1] + a[2] << endl;
+
+    cout << ret << endl;
     return 0;
 }
-/*
-   int ret = a[4];
-   int tmp = min(a[1], a[3]);
-   a[1] -= tmp;
-   a[3] -= tmp;
-   ret += tmp;
-   ret += a[3];
-   tmp = min(a[1] / 2, a[2]);
-   ret += tmp;
-   a[1] -= 2 * tmp;
-   a[2] -= tmp;
-   ret += a[1] / 4 + (a[1] % 4);
-   cout << ret << endl;
-   return 0;
-   }
-   */
