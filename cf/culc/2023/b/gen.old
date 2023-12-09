@@ -1,0 +1,11 @@
+#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    long n = 1e5;
+    cout << 2 * n << " " << 1 << endl;
+    for (long i = 0; i < 2 * n; i++) {
+        cout << "1 ";
+    }
+    cout << endl;
+    return 0;
+}

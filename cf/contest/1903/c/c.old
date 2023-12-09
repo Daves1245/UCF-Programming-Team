@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+int main() {
+    int t; cin >> t;
+    while (t--) {
+        int n; cin >> n;
+        vector<ll> v(n); for (ll &i : v) cin >> i;
+        vector<ll> ps(n + 1, 0); for (int i = 0; i < n; i++) ps[i + 1] = ps[i] + v[i];
+
+        ll sum = 0;
+        ll roll_sum = 0;
+        ll k = 1;
+        cout << "v ";
+        for (int i = 0; i < n; i++) {
+            cout << v[i] << " ";
+        }
+        cout << endl;
+        cout << "ps ";
+        for (int i = 0; i < n; i++) {
+            ll val = v[i] - (ps[n] - ps[i + 1]);
+            cout << val << " ";
+        }
+        cout << endl;
+        for (int i = 0; i < n; i++) {
+            ll val = v[i] - (ps[n] - ps[i + 1]);
+            if (val < 0) {
+                if (roll_sum) {
+                    cout << "pushing " << k << " * " << roll_sum << " = " << k * roll_sum << endl;
+                    sum += k * roll_sum;
+                    roll_sum = 0;
+                    k++;
+                }
+
+                cout << "pushing " << k << " * " << v[i] << " = " << k * v[i] << endl;
+                sum += k * v[i];
+                k++;
+            } else {
+                cout << " adding " << v[i] << " to rollsum now " << roll_sum + v[i] << endl;
+                roll_sum += v[i];
+            }
+        }
+
+        if (roll_sum) {
+            cout << "trailing sum " << k << " * " << roll_sum << " = " << k * roll_sum << endl;
+            sum += k * roll_sum;
+        }
+        cout << sum << endl;
+    }
+
+    return 0;
+}
