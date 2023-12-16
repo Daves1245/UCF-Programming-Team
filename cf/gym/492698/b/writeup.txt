@@ -1,0 +1,4 @@
+1. n must be expressible as a geometric sum (k^n - 1) / (k - 1)
+2. thus, the bound on len is small (at most 63)
+3. we can brute force len, but k can still be big (1e18)
+4. binary search for each len, the best k that fits to n

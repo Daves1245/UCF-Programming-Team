@@ -1,62 +1,47 @@
 #include <bits/stdc++.h>
-#include <limits.h>
 using namespace std;
-using lll = __int128;
 using ll = long long;
+using big = __int128;
 int main() {
-    auto get_sum = [](ll k, int len) -> lll {
-        lll ret = 1;
-        cout << "k " << k << " len " << len << endl;
+    int t; cin >> t;
+
+    auto sum = [](ll k, int len) -> big {
+        big ret = 1;
+        big bk = (big) k;
         for (int i = 0; i < len; i++) {
-            if (ret * k > 1e27) return 1e27;
-            ret *= k;
+            if (ret > 1e27 / k) return 1e27;
+            ret = ret * k;
         }
-        if (ret < 1e18)
-            cout << "returning sum of " << (ll)(ret - 1) / (ll)(k - 1) << endl;
-        return (ret - 1) / (lll)(k - 1);
+        return (ret - 1) / (bk - 1);
     };
 
-    auto bs = [&](int len, lll n) -> lll {
-        ll l = 2, r = 1e18;
-        ll m;
-        lll ret = -1;
-        ll val;
-        for (int i = 0; i < 70; i++) {
+    auto bs = [&](int len, big key) -> big {
+        ll l = 2, r = 1e18, m;
+        big ret;
+        while (l <= r) {
             m = l + (r - l) / 2;
-            if (get_sum(m, len) >= n) {
-                ret = get_sum(m, len);
-                val = m;
-                cout << "left" << endl;
-                r = m;
+            big val = sum(m, len);
+            if (key <= val) {
+                ret = val;
+                r = m - 1;
             } else {
-                cout << "right" << endl;
                 l = m + 1;
             }
-            cout << l << " " << r << endl;
         }
 
-        cout << "end of bs, l = " << l << " and r = " << r << " and best k = " << val << endl;
         return ret;
     };
 
-    bs(3, 10101);
-
-    int t; cin >> t;
     while (t--) {
         ll n; cin >> n;
+
+        big key = (big) n;
+        
         int found = 0;
-
-
-        /*
-           for (int len = 3; len < 64; len++) {
-           lll val = bs(len, (lll) n);
-           if (val < 1e18) {
-           ll tmp = (ll) val;
-           cout << "for len " << len << " best val is " << tmp << " but n is " << n << endl;
-           }
-           found |= val == (lll)n;
-           }
-           */
+        for (int len = 3; len < 64; len++) {
+            big check = bs(len, key);
+            found |= check == key;
+        }
 
         cout << (found ? "YES" : "NO") << endl;
     }
