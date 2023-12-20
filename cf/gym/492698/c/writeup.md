@@ -1,0 +1,2 @@
+It doesn't matter when we cast a spell, so defeat all the monsters at once. The
+problem reduces to assigning a spell to each monster, whether we kill with fire or water. We only care about the total strenght of all monsters in a given category, so perform a knapsack to find out if a given subset sum is possible. Iterate through the possible subset sums, and take whichever gives the least amount of time.
